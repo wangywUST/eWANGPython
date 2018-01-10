@@ -1,0 +1,80 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jan 10 19:21:17 2018
+
+@author: ywanggp
+"""
+
+import numpy as np
+from UpdateTheta import *
+from objValue import *
+import matplotlib.pyplot as plt
+
+def heuristicSquareAlg(Map, loc, destination, time, maxX, maxY):
+    #get axis range matrix
+    speed = 0.5
+    maxLen = 0.5 * time
+    maxLen = int(maxLen)
+    xArray = np.linspace(-maxLen, maxLen, 2 * maxLen + 1)
+    xArray = np.concatenate((xArray, np.linspace(maxLen - 1, -maxLen + 1, 2 * maxLen - 1)), axis = 0)
+    yArray = np.linspace(0, -maxLen, maxLen + 1)
+    yArray = np.concatenate((yArray, np.linspace(-maxLen + 1, maxLen, 2 * maxLen)), axis = 0)
+    yArray = np.concatenate((yArray, np.linspace(maxLen - 1, 1, maxLen - 1)), axis = 0)
+    axisRange = np.column_stack((xArray, yArray))
+    axisRange[:, 0] += loc[0]
+    axisRange[:, 1] += loc[1]
+    
+    #test whether we would touch the margin
+    if(all(axisRange[:, 0] >= 0) and all(axisRange[:,0] <= maxX)):
+        print("x range in matrix")
+    else:
+        print("x range not in matrix")
+        
+    if(all(axisRange[:, 1] >= 0) and all(axisRange[:,1] <= maxY)):
+        print("y range in matrix")
+    else:
+        print("y range not in matrix")
+        
+    #test whether the destination is in the square
+    if(np.sum(np.abs(destination - loc)) < maxLen):
+        finalLoc = destination
+        return(finalLoc)
+        
+    #get the optimal direction
+    #test whether x or y are the same
+    lenX = destination[0] - loc[0]
+    lenY = destination[1] - loc[1]
+    if(lenX == 0):
+        if(lenY > 0):
+           finalLoc = loc
+           finalLoc[1] += maxLen
+        else:
+           finalLoc = loc
+           finalLoc[1] -= maxLen       
+    
+    if(lenY == 0):
+        if(lenX > 0):
+           finalLoc = loc
+           finalLoc[0] += maxLen
+        else:
+           finalLoc = loc
+           finalLoc[0] -= maxLen    
+
+    #find the best direction
+    dir = 0
+    if(lenX > 0):
+        if(lenY > 0):
+            dir = 3
+        else:
+            dir = 2
+    else:
+        if(lenY > 0):
+            dir = 4
+        else:
+            dir = 1
+    
+    range1 = dir * maxLen - maxLen
+    range2 = dir * maxLen 
+    rangeAxis = axisRange[range1 : range2, :]
+    finalLoc = rangeAxis[0, :]
+    return(finalLoc)
