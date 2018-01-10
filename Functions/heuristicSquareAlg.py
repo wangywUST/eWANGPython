@@ -6,12 +6,13 @@ Created on Wed Jan 10 19:21:17 2018
 """
 
 import numpy as np
-from UpdateTheta import *
-from objValue import *
 import matplotlib.pyplot as plt
 
-def heuristicSquareAlg(Map, loc, destination, time, maxX, maxY):
+def heuristicSquareAlg(Map, loc, destination, time):
     #get axis range matrix
+    MaxAxis = Map.shape
+    maxX = MaxAxis[0]
+    maxY = MaxAxis[1]
     speed = 0.5
     maxLen = 0.5 * time
     maxLen = int(maxLen)
@@ -76,5 +77,5 @@ def heuristicSquareAlg(Map, loc, destination, time, maxX, maxY):
     range1 = dir * maxLen - maxLen
     range2 = dir * maxLen 
     rangeAxis = axisRange[range1 : range2, :]
-    finalLoc = rangeAxis[0, :]
+    finalLoc = rangeAxis[int(maxLen / 2), :]
     return(finalLoc)
