@@ -7,10 +7,10 @@ from ADMMSolver import *
 import numpy as np
 
 #Random Seed
-np.random.seed(1)
+np.random.seed(3)
 
 #Variable Dimension
-N = 200
+N = 500
 
 #Penalty Weight
 a = 0.3
@@ -26,10 +26,10 @@ H = a * (2 * np.identity(N) - np.ones((N, N)))
 K = S + H
 
 #ThetaCVX
-CVXa = datetime.datetime.now()
-ThetaCVX = cvxSolver(A, K)
-CVXb = datetime.datetime.now()
-objValueCVX = objValue(ThetaCVX, K)
+# CVXa = datetime.datetime.now()
+# ThetaCVX = cvxSolver(A, K)
+# CVXb = datetime.datetime.now()
+# objValueCVX = objValue(ThetaCVX, K)
 
 #ADMM
 rho = 1
@@ -38,9 +38,7 @@ ThetaADMM = ADMMSolver(A, K, rho)
 ADMMb = datetime.datetime.now()
 objValueADMM = objValue(ThetaADMM, K)
 
-print(CVXb - CVXa)
+# print(CVXb - CVXa)
 print(ADMMb - ADMMa)
-print(objValueCVX)
+# print(objValueCVX)
 print(objValueADMM)
-
-%Licheng
