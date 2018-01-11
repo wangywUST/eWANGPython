@@ -9,15 +9,18 @@ import sys
 sys.path.append("Functions")
 from givePath import *
 import pandas as pd
-from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
 import numpy as np
 
+#trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
+#trainTrueFile = "C:/Users/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
+#testPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
+#cityLocFile = "C:/Users/ywanggp/Downloads/CityData.csv"
 
-trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
-trainTrueFile = "C:/Users/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
-testPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
-cityLocFile = "C:/Users/ywanggp/Downloads/CityData.csv"
+trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
+trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
+testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
+cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
 
 cityLoc = pd.read_csv(cityLocFile)
 xCity = cityLoc['xid']
@@ -31,15 +34,12 @@ chunksize = xsize * ysize
 df = pd.read_csv(file, chunksize = chunksize)
 df1 = pd.read_csv(file, chunksize = chunksize)
 
-for i in range(1, 11):
-    if(i == 1):
-        pathList = givePath(df, np.asarray([xCity[0], yCity[0]]), 
-                            np.asarray([xCity[i], yCity[i]]), 
-                            xsize, ysize)
-    else:
-        pathList = np.concatenate((pathList, givePath(df, np.asarray([xCity[0], yCity[0]]), 
-                                                      np.asarray([xCity[i], yCity[i]]), 
-                            xsize, ysize)), axis = 0)  
+pathList = []
+for i in range(1,11):
+    pathList += list(givePath(df, np.asarray([xCity[0], yCity[0]]), 
+                               np.asarray([xCity[i], yCity[i]]), xsize, ysize))
+pathList = np.asarray(pathList)
+
 
 df1_block = df1.get_chunk(chunksize)
 windGra = df1_block["wind"].values.reshape(xsize,ysize)
