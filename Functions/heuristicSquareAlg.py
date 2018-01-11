@@ -24,6 +24,7 @@ def heuristicSquareAlg(Map, loc, destination, time):
     axisRange = np.column_stack((xArray, yArray))
     axisRange[:, 0] += loc[0]
     axisRange[:, 1] += loc[1]
+    gottenAtTarget = False
     
     #test whether we would touch the margin
     if(all(axisRange[:, 0] >= 0) and all(axisRange[:,0] <= maxX)):
@@ -39,27 +40,31 @@ def heuristicSquareAlg(Map, loc, destination, time):
     #test whether the destination is in the square
     if(np.sum(np.abs(destination - loc)) < maxLen):
         finalLoc = destination
-        return(finalLoc)
+        gottenAtTarget = True
+        return(finalLoc, gottenAtTarget)
         
     #get the optimal direction
     #test whether x or y are the same
     lenX = destination[0] - loc[0]
     lenY = destination[1] - loc[1]
-    if(lenX == 0):
+    if(abs(lenX) <= maxLen / 2):
         if(lenY > 0):
            finalLoc = loc
            finalLoc[1] += maxLen
         else:
            finalLoc = loc
-           finalLoc[1] -= maxLen       
+           finalLoc[1] -= maxLen
+        return(finalLoc, gottenAtTarget)
+
     
-    if(lenY == 0):
+    if(abs(lenY) <= maxLen / 2):
         if(lenX > 0):
            finalLoc = loc
            finalLoc[0] += maxLen
         else:
            finalLoc = loc
            finalLoc[0] -= maxLen    
+        return(finalLoc, gottenAtTarget)
 
     #find the best direction
     dir = 0
@@ -79,4 +84,4 @@ def heuristicSquareAlg(Map, loc, destination, time):
     rangeAxis = axisRange[range1 : range2, :]
     finalLoc = rangeAxis[int(maxLen / 2), :]
     finalLoc = finalLoc.astype(int)
-    return(finalLoc)
+    return(finalLoc, gottenAtTarget)
