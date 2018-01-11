@@ -27,12 +27,12 @@ def heuristicSquareAlg(Map, loc, destination, time):
     
     #test whether we would touch the margin
     if(all(axisRange[:, 0] >= 0) and all(axisRange[:,0] <= maxX)):
-        print("x range in matrix")
+        pass
     else:
         print("x range not in matrix")
         
     if(all(axisRange[:, 1] >= 0) and all(axisRange[:,1] <= maxY)):
-        print("y range in matrix")
+        pass
     else:
         print("y range not in matrix")
         
@@ -78,4 +78,5 @@ def heuristicSquareAlg(Map, loc, destination, time):
     range2 = dir * maxLen 
     rangeAxis = axisRange[range1 : range2, :]
     finalLoc = rangeAxis[int(maxLen / 2), :]
+    finalLoc = finalLoc.astype(int)
     return(finalLoc)

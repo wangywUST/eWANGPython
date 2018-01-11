@@ -24,7 +24,12 @@ chunksize = xsize * ysize
 df = pd.read_csv(file, chunksize = chunksize)
 pd.set_option('display.max_rows', None)
 #print(df.get_chunk(chunksize))
-for i in range(1):
+iniLoc = np.asarray([xCity[0], yCity[0]])
+newLoc = iniLoc.copy()
+for i in range(18):
+    lastLoc = newLoc.copy()
     df_block = df.get_chunk(chunksize)
     windGra = df_block["wind"].values.reshape(xsize,ysize)
-    print(heuristicSquareAlg(windGra, np.asarray([xCity[0], yCity[0]]), np.asarray([xCity[1], yCity[1]]), 60))
+    newLoc = heuristicSquareAlg(windGra, lastLoc, np.asarray([xCity[3], yCity[3]]), 60)
+    print("Now, the location is ",newLoc)
+    print("Wind Speed is",windGra[newLoc[0], newLoc[1]])
