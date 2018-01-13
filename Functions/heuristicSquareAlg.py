@@ -14,7 +14,7 @@ def heuristicSquareAlg(Map, loc, destination, time):
     maxX = MaxAxis[0]
     maxY = MaxAxis[1]
     speed = 0.5
-    maxLen = 0.5 * time
+    maxLen = speed * time
     maxLen = int(maxLen)
     xArray = np.linspace(-maxLen, maxLen, 2 * maxLen + 1)
     xArray = np.concatenate((xArray, np.linspace(maxLen - 1, -maxLen + 1, 2 * maxLen - 1)), axis = 0)
@@ -24,6 +24,16 @@ def heuristicSquareAlg(Map, loc, destination, time):
     axisRange = np.column_stack((xArray, yArray))
     axisRange[:, 0] += loc[0]
     axisRange[:, 1] += loc[1]
+    axisRange = axisRange.astype(int)
+    delete = [True]*len(axisRange)
+    for i in range(len(axisRange)):
+        if Map[axisRange[i,0],axisRange[i,1]] >= 15:
+            delete[i] = False
+#    axisRange_tmp = []
+#    for i in range(len(axisRange)):
+#        if delete[i]:
+#            axisRange_tmp += [axisRange[i]]
+#    axisRange = np.asarray(axisRange_tmp[:])
     gottenAtTarget = False
     
     #test whether we would touch the margin
@@ -45,43 +55,52 @@ def heuristicSquareAlg(Map, loc, destination, time):
         
     #get the optimal direction
     #test whether x or y are the same
-    lenX = destination[0] - loc[0]
-    lenY = destination[1] - loc[1]
-    if(abs(lenX) <= maxLen / 2):
-        if(lenY > 0):
-           finalLoc = loc
-           finalLoc[1] += maxLen
-        else:
-           finalLoc = loc
-           finalLoc[1] -= maxLen
-        return(finalLoc, gottenAtTarget)
-
+    T = []
+    for i in range(axisRange.shape[0]):
+        T += [(i,abs(axisRange[i,0] - destination[0])+abs(axisRange[i,1] - destination[1]),
+               Map[axisRange[i,0],axisRange[i,1]])]
+    T.sort(key=lambda x: x[2])
+    T.sort(key=lambda x: x[1])
+    finalLoc = axisRange[T[0][0],:]
+    return (finalLoc,gottenAtTarget)
     
-    if(abs(lenY) <= maxLen / 2):
-        if(lenX > 0):
-           finalLoc = loc
-           finalLoc[0] += maxLen
-        else:
-           finalLoc = loc
-           finalLoc[0] -= maxLen    
-        return(finalLoc, gottenAtTarget)
-
-    #find the best direction
-    dir = 0
-    if(lenX > 0):
-        if(lenY > 0):
-            dir = 3
-        else:
-            dir = 2
-    else:
-        if(lenY > 0):
-            dir = 4
-        else:
-            dir = 1
-    
-    range1 = dir * maxLen - maxLen
-    range2 = dir * maxLen 
-    rangeAxis = axisRange[range1 : range2, :]
-    finalLoc = rangeAxis[int(maxLen / 2), :]
-    finalLoc = finalLoc.astype(int)
-    return(finalLoc, gottenAtTarget)
+#    lenX = destination[0] - loc[0]
+#    lenY = destination[1] - loc[1]
+#    if(abs(lenX) <= maxLen / 2):
+#        if(lenY > 0):
+#           finalLoc = loc
+#           finalLoc[1] += maxLen
+#        else:
+#           finalLoc = loc
+#           finalLoc[1] -= maxLen
+#        return(finalLoc, gottenAtTarget)
+#
+#    
+#    if(abs(lenY) <= maxLen / 2):
+#        if(lenX > 0):
+#           finalLoc = loc
+#           finalLoc[0] += maxLen
+#        else:
+#           finalLoc = loc
+#           finalLoc[0] -= maxLen    
+#        return(finalLoc, gottenAtTarget)
+#
+#    #find the best direction
+#    dir = 0
+#    if(lenX > 0):
+#        if(lenY > 0):
+#            dir = 3
+#        else:
+#            dir = 2
+#    else:
+#        if(lenY > 0):
+#            dir = 4
+#        else:
+#            dir = 1
+#    
+#    range1 = dir * maxLen - maxLen
+#    range2 = dir * maxLen 
+#    rangeAxis = axisRange[range1 : range2, :]
+#    finalLoc = rangeAxis[int(maxLen / 2), :]
+#    finalLoc = finalLoc.astype(int)
+#    return(finalLoc, gottenAtTarget)
