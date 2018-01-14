@@ -46,3 +46,19 @@ def model2(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421)
         wind = pd.DataFrame(y_pred,columns = ["wind"])
         predict = predict.append(pd.concat((Data,wind),axis = 1),ignore_index = True)
     return predict
+
+def model3(trainPredFile, trainTrueFile, testPredFile, xsize = 548, ysize = 421):
+    chunksize = xsize * ysize * 10
+    df_test = pd.read_csv(testPredFile, chunksize = chunksize)
+    df_train_true = pd.read_csv(trainTrueFile, chunksize = chunksize / 10)
+    df_test = pd.read_csv(testPredFile, chunksize = chunksize)
+    predict = pd.DataFrame(columns = ["xid","yid","date_id","hour","wind"])
+    for i in range(90): 
+        X_test = df_test.get_chunk(chunksize)
+        y_pred = X_test["wind"].values.reshape(xsize * ysize, 10)
+        y_pred = np.max(y_pred, axis = 1).ravel()
+        Data = df_train_true.get_chunk(chunksize / 10).reset_index(drop=True)
+        Data.drop(["wind"],axis = 1,inplace = True)
+        wind = pd.DataFrame(y_pred,columns = ["wind"])
+        predict = predict.append(pd.concat((Data,wind),axis = 1),ignore_index = True)
+    return predict

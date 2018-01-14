@@ -25,7 +25,7 @@ trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTrainin
 trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
 cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
-testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
+testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_3.csv"
 submitPath = "C:\Users\lzhaoai\Desktop\predict_weather\submitResult.csv"
 
 cityLoc = pd.read_csv(cityLocFile)
@@ -46,7 +46,7 @@ df1 = pd.read_csv(file, chunksize = chunksize)
 block = []
 fullScore = 0
 for dayNum in range(1, maxDay + 1):
-    for cityNum in [2,9,10]: #range(1, maxCity + 1):
+    for cityNum in  range(1, maxCity + 1):#[2,9,10]:
         df = pd.read_csv(file, chunksize = chunksize)
         df = jumpDays(df, dayNum, chunksize)
         
