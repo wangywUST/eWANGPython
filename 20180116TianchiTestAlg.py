@@ -64,13 +64,9 @@ for dayNum in [3]: #range(1, maxDay + 1):
     star_point = xCity[0] * ysize + yCity[0]
     for cityNum in [5]: #range(1, maxCity + 1):  
         end_point = xCity[cityNum] * ysize + yCity[cityNum]
-<<<<<<< HEAD
         thre_wind = 15
-        Date_new = Data_convert(windGraph, thre_wind)
-        Pathinfo = Path_design(Date_new, star_point, end_point, dayNum - 1)
-=======
-        Pathinfo = Path_design(windGraph, star_point, end_point, end_point, 0)
->>>>>>> fb9cfb15d9e9ffb2fdb479aece9acd339265c412
+        Date = Data_convert(windGraph, thre_wind)
+        Pathinfo = Path_design(Date, star_point, end_point, dayNum - 1)
     Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
     print obtainScore(Pathinfo, windGraph)
 #        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
