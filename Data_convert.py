@@ -10,7 +10,7 @@ def Data_convert(Data, thre_wind):
         for i in range(Data.shape[1]):
             for j in range(Data.shape[2]):
                 if Data[k, i, j] < thre_wind:
-                    Data[k, i, j] = 0 if Date[k, i, j] < thre_wind else 1
+                    Data[k, i, j] = 0 if Data[k, i, j] < thre_wind else 1
     for k in range(Data.shape[0]-1):
         Data[k,:,:] = Data[k, :, :] or Data[k + 1, :, :]
     return Data
