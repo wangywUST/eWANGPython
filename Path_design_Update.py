@@ -27,7 +27,7 @@ from New_end_point import *
 #    star_point = Start_city[0] * col_num + Start_city[1]
 #    end_point = Target_city[0] * col_num + Target_city[1]
 
-def Path_design(Data, star_point, end_point, end_point_replace, height):
+def Path_design_Update(Data, star_point, end_point, end_point_replace, height):
     high_num = int(Data.shape[0])
     row_num = int(Data.shape[1])
     col_num = int(Data.shape[2])      
