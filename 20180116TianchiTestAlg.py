@@ -69,7 +69,7 @@ for dayNum in [3]: #range(1, maxDay + 1):
 #        Pathinfo = Path_design(windGraph, star_point, end_point, end_point, 0)
         #updated algorithm
         thre_wind = 15
-        Date = Data_convert(windGraph, thre_wind)
+        Data = Data_convert(windGraph, thre_wind)
         Pathinfo = Path_design_update(Data, star_point, end_point, end_point, 0)
     Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
     print obtainScore(Pathinfo, windGraph)
