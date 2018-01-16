@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
-def obtainScore(pathList, windGra):
+def obtainScore(pathList, windGraph):
     timeLen = pathList.shape[0]
     threshold = 15
-    for i in range(timeLen):
-        if(windGra[pathList[i, 0], pathList[i, 1]] >= threshold):
-            print "die " + str(windGra[pathList[i, 0], pathList[i, 1]]) + " " +str(i)
-#            plt.scatter(pathList[i, 1], pathList[i, 0], marker='o', s=100, c = 'gold', zorder=10) 
-            return 1440
-    return((timeLen - 1) * 2)
+    seg = len(pathList)/30
+    flag = False
+    for j in range(seg):   
+        for i in range(30):
+            if(windGraph[j,pathList[i, 0], pathList[i, 1]] >= threshold):
+                print "die " + str(windGraph[j,pathList[i, 0], pathList[i, 1]]) +" " + str(j)+ " " +str(i)
+                flag = True
+    #            plt.scatter(pathList[i, 1], pathList[i, 0], marker='o', s=100, c = 'gold', zorder=10) 
+    return 1440 if flag else (timeLen - 1) * 2

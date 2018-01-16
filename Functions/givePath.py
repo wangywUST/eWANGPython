@@ -8,6 +8,7 @@ from heuristicSquareAlg import *
 from showPoint import *
 import numpy as np
 from fillPath import *
+from obtainScore import *
 
 def givePath(windGraph, Departure, destination, xsize, ysize, xCity, yCity):
     iniLoc = Departure.copy()
@@ -15,19 +16,18 @@ def givePath(windGraph, Departure, destination, xsize, ysize, xCity, yCity):
     hourNum = 18
     timePieceMin = 60
     locList = newLoc 
-    fullScore = 0
     for i in range(hourNum):
         lastLoc = newLoc.copy()
         windGra = windGraph[i,:,:]
         (newLoc, flag) = heuristicSquareAlg(windGra, lastLoc.copy(), destination, timePieceMin)
         print(windGra[newLoc[0], newLoc[1]])
-        (Fillpath,score) = fillPath(lastLoc, newLoc,windGra)
+        Fillpath = fillPath(lastLoc, newLoc,windGra)
         if(i == 0):
             locList = np.concatenate((np.asarray([locList]), Fillpath), axis = 0)
         else:
             locList = np.concatenate((locList, Fillpath), axis = 0)
+        
         showPoint(windGra, xCity, yCity, locList)
-        fullScore += score
         if(flag == True):
             break    
-    return(locList,min(fullScore,1440))
+    return(locList,obtainScore(locList,windGraph))
