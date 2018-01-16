@@ -21,6 +21,7 @@ Created on Tue Jan 16 14:25:24 2018
 import numpy as np
 from graph import *
 from algorithm import *
+from New_end_point import *
 
 
 #    star_point = Start_city[0] * col_num + Start_city[1]
