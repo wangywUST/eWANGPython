@@ -53,7 +53,7 @@ df1 = pd.read_csv(file, chunksize = chunksize)
 block = []
 windGraph = np.zeros((18,xsize,ysize))
 fullScore = []
-for dayNum in [1]: #range(1, maxDay + 1):
+for dayNum in [3]: #range(1, maxDay + 1):
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
     for _ in range(18):
@@ -61,9 +61,9 @@ for dayNum in [1]: #range(1, maxDay + 1):
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
         
     star_point = xCity[0] * ysize + yCity[0]
-    for cityNum in [9]: #range(1, maxCity + 1):  
+    for cityNum in [5]: #range(1, maxCity + 1):  
         end_point = xCity[cityNum] * ysize + yCity[cityNum]
-        Pathinfo = Path_design(windGraph, star_point, end_point, dayNum - 1)
+        Pathinfo = Path_design(windGraph, star_point, end_point, end_point, 0)
     Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
     print obtainScore(Pathinfo, windGraph)
 #        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
