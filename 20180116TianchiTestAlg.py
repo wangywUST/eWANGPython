@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Tue Jan 16 14:25:56 2018
+
+@author: lzhaoai
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Thu Jan 11 16:21:22 2018
 
 @author: ywanggp
@@ -7,7 +14,6 @@ Created on Thu Jan 11 16:21:22 2018
 
 import sys
 sys.path.append("Functions")
-from obtainScore import *
 from jumpDays import *
 from givePath import *
 from submitFormat import *
@@ -40,23 +46,24 @@ maxDay = 5
 maxCity = 10
 
 chunksize = xsize * ysize
-df = pd.read_csv(file, chunksize = chunksize)
 df1 = pd.read_csv(file, chunksize = chunksize)
 
 block = []
+windGraph = np.zeros((18,xsize,ysize))
 fullScore = []
 for dayNum in [1]: #range(1, maxDay + 1):
-    for cityNum in [2,9]: #range(1, maxCity + 1):
-        df = pd.read_csv(file, chunksize = chunksize)
-        df = jumpDays(df, dayNum, chunksize)
-        
-        (pathList, windGra) = givePath(df, np.asarray([xCity[0], yCity[0]]), 
+    df = pd.read_csv(file, chunksize = chunksize)
+    df = jumpDays(df, dayNum-1, chunksize)
+    for _ in range(18):
+        windGra = df.get_chunk(chunksize)["wind"]
+        windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
+    for cityNum in [9]: #range(1, maxCity + 1):   
+        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
                                    np.asarray([xCity[cityNum], yCity[cityNum]]), 
                                    xsize, ysize, xCity, yCity)
-        score = obtainScore(pathList, windGra)
-        fullScore += [score]
         (string, des_n_day) = submitFormat(dayNum+5, cityNum, pathList)
         block += list(np.concatenate((des_n_day, string, pathList), axis = 1))
+        fullScore += [Score]
         
 block = np.asarray(block)
 
@@ -78,5 +85,3 @@ block = np.asarray(block)
 #%%
 #df_b = pd.DataFrame(block)
 #df_b.to_csv(submitPath, header=None,index = False)
-print fullScore
-print sum(fullScore)

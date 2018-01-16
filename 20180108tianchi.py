@@ -4,9 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
 trainTrueFile = "C:/Users/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
-testPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
 cityLocFile = "C:/Users/ywanggp/Downloads/CityData.csv"
 
 cityLoc = pd.read_csv(cityLocFile)
@@ -36,7 +34,7 @@ for i in range(90):
     plt.scatter(yCity[0], xCity[0], marker='*', s=50, c = 'gold', zorder=10)
     #C = plt.contour(X, Y, windGra, 8, colors='black', linewidth=.1)
     plt.title(str(i // 18 + 1) + ' Day ' + str(i % 18 + 1) + ' Hour.png')
-    plt.savefig('Output/' + str(i // 18 + 1) + ' Day ' + str(i % 18 + 1) + ' Hour.png')
+    plt.savefig('Output/LichengOutput/' + str(i // 18 + 1) + ' Day ' + str(i % 18 + 1) + ' Hour.png')
     del CS
     del CSF
     plt.clf()
