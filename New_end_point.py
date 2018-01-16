@@ -5,14 +5,14 @@ Created on Tue Jan 16 20:49:31 2018
 @author: lwuag
 """
 
-def New_end_point(data, star_point, end_point, col_num, thre_wind):
+def New_end_point(data, star_point, end_point, col_num):
     start_x, start_y = index_2_xy(star_point, col_num)
     end_x, end_y = index_2_xy(end_point, col_num)
     Stop = False
     while not Stop:
         mid_pos_x = (start_x + end_x) // 2
         mid_pos_y = (start_y + end_y) // 2
-        if data[mid_pos_x, mid_pos_y] < thre_wind:
+        if data[mid_pos_x, mid_pos_y] < 1:
             Stop = True
         else:
             end_x = mid_pos_x

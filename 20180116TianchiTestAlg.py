@@ -24,6 +24,7 @@ import numpy as np
 import datetime as dt
 from Path_design import *
 from obtainScore import *
+from Data_convert import *
 #trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
 #trainTrueFile = "C:/Users/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
 #testPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
@@ -63,7 +64,9 @@ for dayNum in [1]: #range(1, maxDay + 1):
     star_point = xCity[0] * ysize + yCity[0]
     for cityNum in [9]: #range(1, maxCity + 1):  
         end_point = xCity[cityNum] * ysize + yCity[cityNum]
-        Pathinfo = Path_design(windGraph, star_point, end_point, dayNum - 1)
+        thre_wind = 15
+        Date_new = Data_convert(windGraph, thre_wind)
+        Pathinfo = Path_design(Date_new, star_point, end_point, dayNum - 1)
     Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
     print obtainScore(Pathinfo, windGraph)
 #        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
