@@ -14,6 +14,7 @@ Created on Thu Jan 11 16:21:22 2018
 
 import sys
 sys.path.append("Functions")
+sys.path.append("dijkstar")
 from jumpDays import *
 from givePath import *
 from submitFormat import *
@@ -21,7 +22,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import datetime as dt
-
+from Path_design import *
+from obtainScore import *
 #trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
 #trainTrueFile = "C:/Users/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
 #testPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
@@ -51,22 +53,32 @@ df1 = pd.read_csv(file, chunksize = chunksize)
 block = []
 windGraph = np.zeros((18,xsize,ysize))
 fullScore = []
-for dayNum in range(1, maxDay + 1):
+for dayNum in [1]: #range(1, maxDay + 1):
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
     for _ in range(18):
         windGra = df.get_chunk(chunksize)["wind"]
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
-    for cityNum in range(1, maxCity + 1):   
-        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
-                                   np.asarray([xCity[cityNum], yCity[cityNum]]), 
-                                   xsize, ysize, xCity, yCity)
-        (string, des_n_day) = submitFormat(dayNum+5, cityNum, pathList)
-        block += list(np.concatenate((des_n_day, string, pathList), axis = 1))
-        fullScore += [Score]
         
-block = np.asarray(block)
-print sum(fullScore)
+    star_point = xCity[0] * ysize + yCity[0]
+    for cityNum in [9]: #range(1, maxCity + 1):  
+        end_point = xCity[cityNum] * ysize + yCity[cityNum]
+        Pathinfo = Path_design(windGraph, star_point, end_point, dayNum - 1)
+    Pathinfo = [[node/ysize, node%ysize] for node in Pathinfo]
+    seg = len(Pathinfo)/30
+    score = 0
+    for i in range(seg):
+         score += obtainScore(np.asarray(Pathinfo[i*30:(i+1)*30]), windGraph[i,:,:])
+    print min(score,1440)
+#        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
+#                                   np.asarray([xCity[cityNum], yCity[cityNum]]), 
+#                                   xsize, ysize, xCity, yCity)
+#        (string, des_n_day) = submitFormat(dayNum+5, cityNum, pathList)
+#        block += list(np.concatenate((des_n_day, string, pathList), axis = 1))
+#        fullScore += [Score]
+        
+#block = np.asarray(block)
+#print sum(fullScore)
 #df1_block = df1.get_chunk(chunksize)
 #windGra = df1_block["wind"].values.reshape(xsize,ysize)
 #x = np.linspace(1, xsize, xsize)

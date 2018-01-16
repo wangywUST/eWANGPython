@@ -45,9 +45,9 @@ def Path_design(Data, star_point, end_point, height):
             if j + 1 < col_num and Data[height, i, j + 1] < thre_wind:
                 index_next = i * col_num + (j + 1)
                 graph.add_edge(index, index_next, {'cost': 2})
-    cost_func = lambda u, v, e, prev_e: e['cost']
-    heuristic_func = lambda u, v, e, prev_e: e['cost']
-    PathInfo = find_path(graph, star_point, end_point, cost_func, heuristic_func)
+    cost_func_1 = lambda u, v, e, prev_e: e['cost']
+    heuristic_func_1 = lambda u, v, e, prev_e: e['cost']
+    PathInfo = find_path(graph, star_point, end_point, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
     Stop = False
     Fail_pos = 0
     Height_pos = 0
