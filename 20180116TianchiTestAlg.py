@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import datetime as dt
 from Path_design import *
-from Path_design_update import *
+from Path_design_Update import *
 from obtainScore import *
 from Data_convert import *
 #trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
@@ -70,7 +70,7 @@ for dayNum in [3]: #range(1, maxDay + 1):
         #updated algorithm
         thre_wind = 15
         Data = Data_convert(windGraph, thre_wind)
-        Pathinfo = Path_design_update(Data, star_point, end_point, end_point, 0)
+        Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, 0)
     Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
     print obtainScore(Pathinfo, windGraph)
 #        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
