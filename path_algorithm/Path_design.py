@@ -22,8 +22,12 @@ from algorithm import *
 def Path_design(Data, star_point, end_point, height):
     high_num = int(Data.shape[0])
     row_num = int(Data.shape[1])
-    col_num = int(Data.shape[2])
+    col_num = int(Data.shape[2])   
     thre_wind = 15
+    end_x = end_point // col_num
+    end_y = end_point % col_num
+    if Data[height, end_x, end_y] >= thre_wind:
+        return []
     graph = Graph()
     for i in range(row_num):
         for j in range(col_num):
@@ -46,18 +50,20 @@ def Path_design(Data, star_point, end_point, height):
     PathInfo = find_path(graph, star_point, end_point, cost_func, heuristic_func)
     Stop = False
     Fail_pos = 0
+    Height_pos = 0
     if height == high_num - 1:
         return PathInfo.nodes
     else:
         while index in range(30, len(PathInfo.nodes)) and not Stop:
+            z_id = index // 30
             x_id = PathInfo[index].nodes // col_num
             y_id = PathInfo[index].nodes % col_num
-            if Data[height, x_id, y_id] >= thre_wind:
+            if Data[z_id, x_id, y_id] >= thre_wind:
                 Stop = True
                 Fail_pos = index
+                Height_pos = z_id
         if Stop:
-            height_start = Fail_pos // 30
-            return PathInfo[0:height_start*30].nodes + Path_design(Data, PathInfo[height_start*30].nodes, end_point, height_start)
+            return PathInfo[0:Height_pos*30].nodes + Path_design(Data, PathInfo[Height_pos*30].nodes, end_point, Height_pos)
         else:
             return PathInfo.nodes
         
