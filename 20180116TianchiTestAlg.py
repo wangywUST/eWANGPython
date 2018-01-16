@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import datetime as dt
 from Path_design import *
+from Path_design_update import *
 from obtainScore import *
 from Data_convert import *
 #trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
