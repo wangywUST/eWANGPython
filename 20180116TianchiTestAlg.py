@@ -31,7 +31,7 @@ trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTrainin
 trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
 testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
 cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
-testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_3.csv"
+testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
 submitPath = "C:\Users\lzhaoai\Desktop\predict_weather\submitResult.csv"
 
 cityLoc = pd.read_csv(cityLocFile)
@@ -51,13 +51,13 @@ df1 = pd.read_csv(file, chunksize = chunksize)
 block = []
 windGraph = np.zeros((18,xsize,ysize))
 fullScore = []
-for dayNum in [1]: #range(1, maxDay + 1):
+for dayNum in range(1, maxDay + 1):
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
     for _ in range(18):
         windGra = df.get_chunk(chunksize)["wind"]
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
-    for cityNum in [9]: #range(1, maxCity + 1):   
+    for cityNum in range(1, maxCity + 1):   
         (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
                                    np.asarray([xCity[cityNum], yCity[cityNum]]), 
                                    xsize, ysize, xCity, yCity)
@@ -66,7 +66,7 @@ for dayNum in [1]: #range(1, maxDay + 1):
         fullScore += [Score]
         
 block = np.asarray(block)
-
+print sum(fullScore)
 #df1_block = df1.get_chunk(chunksize)
 #windGra = df1_block["wind"].values.reshape(xsize,ysize)
 #x = np.linspace(1, xsize, xsize)
