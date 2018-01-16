@@ -19,7 +19,7 @@ from algorithm import *
 #    star_point = Start_city[0] * col_num + Start_city[1]
 #    end_point = Target_city[0] * col_num + Target_city[1]
 
-def Path_design(Data, star_point, end_point, height):
+def Path_design(Data, star_point, end_point, end_point_replace, height):
     high_num = int(Data.shape[0])
     row_num = int(Data.shape[1])
     col_num = int(Data.shape[2])   
@@ -27,7 +27,9 @@ def Path_design(Data, star_point, end_point, height):
     end_x = end_point // col_num
     end_y = end_point % col_num
     if Data[height, end_x, end_y] >= thre_wind:
-        return []
+        end_point_replace = New_end_point(Data[height,:,:], star_point, end_point, col_num, thre_wind)  # if the end_point is unaccessible, choose a new end  
+    else:
+        end_point_replace = end_point
     graph = Graph()
     for i in range(row_num):
         for j in range(col_num):
@@ -47,7 +49,7 @@ def Path_design(Data, star_point, end_point, height):
                 graph.add_edge(index, index_next, {'cost': 2})
     cost_func_1 = lambda u, v, e, prev_e: e['cost']
     heuristic_func_1 = lambda u, v, e, prev_e: e['cost']
-    PathInfo = find_path(graph, star_point, end_point, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
+    PathInfo = find_path(graph, star_point, end_point_replace, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
     Stop = False
     Fail_pos = 0
     Height_pos = 0
@@ -63,7 +65,8 @@ def Path_design(Data, star_point, end_point, height):
                 Fail_pos = index
                 Height_pos = z_id
         if Stop:
-            return PathInfo[0:Height_pos*30].nodes + Path_design(Data, PathInfo[Height_pos*30].nodes, end_point, Height_pos)
+            end_point_replace = end_point
+            return PathInfo[0:Height_pos*30].nodes + Path_design(Data, PathInfo[Height_pos*30].nodes, end_point, end_point_replace, Height_pos)
         else:
             return PathInfo.nodes
         
