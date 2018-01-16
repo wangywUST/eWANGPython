@@ -12,7 +12,8 @@ Created on Tue Jan 16 14:25:24 2018
 @author: lwuag
 """
 import numpy as np
-from dijkstar import Graph, find_path
+from graph import *
+from algorithm import *
 
 
 #    star_point = Start_city[0] * col_num + Start_city[1]
@@ -30,33 +31,33 @@ def Path_design(Data, star_point, end_point, height):
 #            graph.add_node(index)
             if i - 1 >= 0 and Data[height,i - 1, j] < thre_wind:
                 index_next = (i - 1) * col_num + j
-                graph.add_edge(index, index_next, edge = 2)
+                graph.add_edge(index, index_next, {'cost': 2})
             if i + 1 < row_num and Data[height, i + 1, j] < thre_wind:
                 index_next = (i + 1) * col_num + j
-                graph.add_edge(index, index_next, edge = 2)
+                graph.add_edge(index, index_next, {'cost': 2})
             if j - 1 >= 0 and Data[height, i, j - 1] < thre_wind:
                 index_next = i * col_num + (j - 1)
-                graph.add_edge(index, index_next, edge = 2)
+                graph.add_edge(index, index_next, {'cost': 2})
             if j + 1 < col_num and Data[height, i, j + 1] < thre_wind:
                 index_next = i * col_num + (j + 1)
-                graph.add_edge(index, index_next, edge = 2)
-    cost_func = None
-    heuristic_func = None
+                graph.add_edge(index, index_next, {'cost': 2})
+    cost_func = lambda u, v, e, prev_e: e['cost']
+    heuristic_func = lambda u, v, e, prev_e: e['cost']
     PathInfo = find_path(graph, star_point, end_point, cost_func, heuristic_func)
     Stop = False
     Fail_pos = 0
     if height == high_num - 1:
-        return PathInfo
+        return PathInfo.nodes
     else:
-        while index in range(30, len(PathInfo)) and not Stop:
-            x_id = PathInfo[index] // col_num
-            y_id = PathInfo[index] % col_num
+        while index in range(30, len(PathInfo.nodes)) and not Stop:
+            x_id = PathInfo[index].nodes // col_num
+            y_id = PathInfo[index].nodes % col_num
             if Data[height, x_id, y_id] >= thre_wind:
                 Stop = True
                 Fail_pos = index
         if Stop:
             height_start = Fail_pos // 30
-            return PathInfo[0:height_start*30] + Path_design(Data, PathInfo[height_start*30], end_point, height_start)
+            return PathInfo[0:height_start*30].nodes + Path_design(Data, PathInfo[height_start*30].nodes, end_point, height_start)
         else:
-            return PathInfo
+            return PathInfo.nodes
         
