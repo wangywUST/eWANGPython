@@ -55,7 +55,7 @@ df1 = pd.read_csv(file, chunksize = chunksize)
 block = []
 windGraph = np.zeros((18,xsize,ysize))
 fullScore = []
-for dayNum in [3]: #range(1, maxDay + 1):
+for dayNum in range(1, maxDay + 1):
     df = pd.read_csv(file, chunksize = chunksize)
     df = jumpDays(df, dayNum-1, chunksize)
     for _ in range(18):
@@ -63,25 +63,23 @@ for dayNum in [3]: #range(1, maxDay + 1):
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
         
     star_point = xCity[0] * ysize + yCity[0]
-    for cityNum in [5]: #range(1, maxCity + 1):  
+    for cityNum in range(1, maxCity + 1):  
         end_point = xCity[cityNum] * ysize + yCity[cityNum]
-        # original algorithm
-#        Pathinfo = Path_design(windGraph, star_point, end_point, end_point, 0)
-        #updated algorithm
         thre_wind = 15
         Data = Data_convert(windGraph, thre_wind)
-        Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, 0)
-    Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
-    print obtainScore(Pathinfo, windGraph)
-#        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
-#                                   np.asarray([xCity[cityNum], yCity[cityNum]]), 
-#                                   xsize, ysize, xCity, yCity)
-#        (string, des_n_day) = submitFormat(dayNum+5, cityNum, pathList)
-#        block += list(np.concatenate((des_n_day, string, pathList), axis = 1))
-#        fullScore += [Score]
-        
-#block = np.asarray(block)
-#print sum(fullScore)
+        try:
+            Pathinfo = Path_design(windGraph, star_point, end_point, end_point, 0)
+#            Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, 0)
+            Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
+            Score = obtainScore(Pathinfo, windGraph)
+            (string, des_n_day) = submitFormat(dayNum+5, cityNum, Pathinfo)
+            block += list(np.concatenate((des_n_day, string, Pathinfo), axis = 1))        
+        except:
+            Score = 1440
+        print Score
+        fullScore += [Score]
+block = np.asarray(block)
+print sum(fullScore)
 #df1_block = df1.get_chunk(chunksize)
 #windGra = df1_block["wind"].values.reshape(xsize,ysize)
 #x = np.linspace(1, xsize, xsize)
@@ -98,5 +96,5 @@ for dayNum in [3]: #range(1, maxDay + 1):
 #plt.show()
 
 #%%
-#df_b = pd.DataFrame(block)
-#df_b.to_csv(submitPath, header=None,index = False)
+df_b = pd.DataFrame(block)
+df_b.to_csv(submitPath, header=None,index = False)

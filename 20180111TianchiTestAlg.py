@@ -45,15 +45,16 @@ df1 = pd.read_csv(file, chunksize = chunksize)
 
 block = []
 fullScore = []
-for dayNum in [1]: #range(1, maxDay + 1):
-    for cityNum in [2,9]: #range(1, maxCity + 1):
-        df = pd.read_csv(file, chunksize = chunksize)
-        df = jumpDays(df, dayNum, chunksize)
-        
-        (pathList, windGra) = givePath(df, np.asarray([xCity[0], yCity[0]]), 
+for dayNum in range(1, maxDay + 1):
+    df = pd.read_csv(file, chunksize = chunksize)
+    df = jumpDays(df, dayNum-1, chunksize)
+    for _ in range(18):
+        windGra = df.get_chunk(chunksize)["wind"]
+        windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
+    for cityNum in [2]: #range(1, maxCity + 1):   
+        (pathList, score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
                                    np.asarray([xCity[cityNum], yCity[cityNum]]), 
                                    xsize, ysize, xCity, yCity)
-        score = obtainScore(pathList, windGra)
         fullScore += [score]
         (string, des_n_day) = submitFormat(dayNum+5, cityNum, pathList)
         block += list(np.concatenate((des_n_day, string, pathList), axis = 1))
