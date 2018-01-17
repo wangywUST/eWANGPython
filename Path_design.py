@@ -29,7 +29,7 @@ def Path_design(Data, star_point, end_point, end_point_replace, height):
     end_x = end_point // col_num
     end_y = end_point % col_num
     if Data[height, end_x, end_y] >= thre_wind:
-        end_point_replace = New_end_point(Data[height,:,:], star_point, end_point, col_num, thre_wind)  # if the end_point is unaccessible, choose a new end  
+        end_point_replace = New_end_point_mid(Data[height,:,:], star_point, end_point, col_num, thre_wind)  # if the end_point is unaccessible, choose a new end  
     else:
         end_point_replace = end_point
     graph = Graph()
@@ -68,7 +68,7 @@ def Path_design(Data, star_point, end_point, end_point_replace, height):
                 Height_pos = z_id
         if Stop:
             end_point_replace = end_point
-            return PathInfo[0:Height_pos*30].nodes + Path_design(Data, PathInfo[Height_pos*30].nodes, end_point, end_point_replace, Height_pos)
+            return PathInfo[0:(Height_pos*30-1)].nodes + Path_design(Data, PathInfo[Height_pos*30-1].nodes, end_point, end_point_replace, Height_pos)
         else:
             return PathInfo.nodes
         

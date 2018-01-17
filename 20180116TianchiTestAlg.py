@@ -79,7 +79,9 @@ for dayNum in range(1, maxDay + 1):
         print Score
         fullScore += [Score]
 block = np.asarray(block)
-print sum(fullScore)
+        
+#block = np.asarray(block)
+#print sum(fullScore)
 #df1_block = df1.get_chunk(chunksize)
 #windGra = df1_block["wind"].values.reshape(xsize,ysize)
 #x = np.linspace(1, xsize, xsize)
