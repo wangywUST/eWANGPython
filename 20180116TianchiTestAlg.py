@@ -26,25 +26,22 @@ from Path_design import *
 from Path_design_Update import *
 from obtainScore import *
 from Data_convert import *
+#trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
+#trainTrueFile = "C:/Users/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
+#testPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
+#cityLocFile = "C:/Users/ywanggp/Downloads/CityData.csv"
 
-trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
-trainTrueFile = "C:/Users/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
-testPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
-cityLocFile = "C:/Users/ywanggp/Downloads/CityData.csv"
-testTrueFile = "C:/Users/ywanggp/Downloads/predict_weather/predict_model_3.csv"
-submitPath = "C:/Users/ywanggp/Downloads/predict_weather/submitResult.csv"
-
-# trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
-# trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
-# testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
-# cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
-# testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
-# submitPath = "C:\Users\lzhaoai\Desktop\predict_weather\submitResult.csv"
+trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
+trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
+testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
+cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
+testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
+submitPath = "C:\Users\lzhaoai\Desktop\predict_weather\submitResult.csv"
 
 cityLoc = pd.read_csv(cityLocFile)
 xCity = cityLoc['xid']
 yCity = cityLoc['yid']
-file = trainTrueFile
+file = testTrueFile
 
 xsize = 548
 ysize = 421
@@ -64,9 +61,9 @@ for dayNum in [3]: #range(1, maxDay + 1):
     for _ in range(18):
         windGra = df.get_chunk(chunksize)["wind"]
         windGraph[_,:,:] = windGra.values.reshape(xsize,ysize).copy()
-        
+
     star_point = xCity[0] * ysize + yCity[0]
-    for cityNum in [5]: #range(1, maxCity + 1):  
+    for cityNum in [5]: #range(1, maxCity + 1):
         end_point = xCity[cityNum] * ysize + yCity[cityNum]
         # original algorithm
 #        Pathinfo = Path_design(windGraph, star_point, end_point, end_point, 0)
@@ -78,14 +75,14 @@ for dayNum in [3]: #range(1, maxDay + 1):
         # if end_point is not the true end
         # if the end
     Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
-    print(obtainScore(Pathinfo, windGraph))
-#        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
-#                                   np.asarray([xCity[cityNum], yCity[cityNum]]), 
+    print obtainScore(Pathinfo, windGraph)
+#        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]),
+#                                   np.asarray([xCity[cityNum], yCity[cityNum]]),
 #                                   xsize, ysize, xCity, yCity)
 #        (string, des_n_day) = submitFormat(dayNum+5, cityNum, pathList)
 #        block += list(np.concatenate((des_n_day, string, pathList), axis = 1))
 #        fullScore += [Score]
-        
+
 #block = np.asarray(block)
 #print sum(fullScore)
 #df1_block = df1.get_chunk(chunksize)
