@@ -14,7 +14,7 @@ Created on Tue Jan 16 14:25:24 2018
 import numpy as np
 from graph import *
 from algorithm import *
-from New_end_point import *
+from New_end_point_mid import *
 from index_2_xy import *
 from xy_2_index import *
 
