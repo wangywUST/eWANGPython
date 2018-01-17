@@ -16,19 +16,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 import datetime as dt
 
-trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
-trainTrueFile = "C:/Users/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
-testPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
-cityLocFile = "C:/Users/ywanggp/Downloads/CityData.csv"
-testTrueFile = "C:/Users/ywanggp/Downloads/predict_weather/predict_model_3.csv"
-submitPath = "C:/Users/ywanggp/Downloads/predict_weather/submitResult.csv"
+#trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
+#trainTrueFile = "C:/Users/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
+#testPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
+#cityLocFile = "C:/Users/ywanggp/Downloads/CityData.csv"
 
-# trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
-# trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
-# testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
-# cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
-# testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_3.csv"
-# submitPath = "C:\Users\lzhaoai\Desktop\predict_weather\submitResult.csv"
+trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
+trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
+testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
+cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
+testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_3.csv"
+submitPath = "C:\Users\lzhaoai\Desktop\predict_weather\submitResult.csv"
 
 cityLoc = pd.read_csv(cityLocFile)
 xCity = cityLoc['xid']
@@ -51,9 +49,9 @@ for dayNum in [1]: #range(1, maxDay + 1):
     for cityNum in [2,9]: #range(1, maxCity + 1):
         df = pd.read_csv(file, chunksize = chunksize)
         df = jumpDays(df, dayNum, chunksize)
-        
-        (pathList, windGra) = givePath(df, np.asarray([xCity[0], yCity[0]]), 
-                                   np.asarray([xCity[cityNum], yCity[cityNum]]), 
+
+        (pathList, windGra) = givePath(df, np.asarray([xCity[0], yCity[0]]),
+                                   np.asarray([xCity[cityNum], yCity[cityNum]]),
                                    xsize, ysize, xCity, yCity)
         score = obtainScore(pathList, windGra)
         fullScore += [score]
@@ -80,5 +78,5 @@ block = np.asarray(block)
 #%%
 #df_b = pd.DataFrame(block)
 #df_b.to_csv(submitPath, header=None,index = False)
-print(fullScore)
-print(sum(fullScore))
+print fullScore
+print sum(fullScore)

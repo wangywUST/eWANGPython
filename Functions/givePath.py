@@ -20,13 +20,12 @@ def givePath(windGraph, Departure, destination, xsize, ysize, xCity, yCity):
         lastLoc = newLoc.copy()
         windGra = windGraph[i,:,:]
         (newLoc, flag) = heuristicSquareAlg(windGra, lastLoc.copy(), destination, timePieceMin)
-        print(windGra[newLoc[0], newLoc[1]])
-        Fillpath = fillPath(lastLoc, newLoc,windGra)
+#        print(windGra[newLoc[0], newLoc[1]])
+        Fillpath = fillPath(lastLoc, newLoc)
         if(i == 0):
             locList = np.concatenate((np.asarray([locList]), Fillpath), axis = 0)
         else:
-            locList = np.concatenate((locList, Fillpath), axis = 0)
-        
+            locList = np.concatenate((locList, Fillpath), axis = 0)        
         showPoint(windGra, xCity, yCity, locList)
         if(flag == True):
             break    
