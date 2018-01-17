@@ -35,15 +35,16 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height):
     end_x = end_point // col_num
     end_y = end_point % col_num
     
-    if Data[height, end_x, end_y] >= 1:
-#        end_point_replace = New_end_point_mid(Data[height,:,:], star_point, end_point, col_num)
-        size = 5
-        end_point_replace = New_end_point_nearby(Data[height,:,:], star_point, end_point, col_num, size)
-    else:
-        end_point_replace = end_point
-        
-    graph = Graph()
+#%%   
+    size_init = 5
+    end_point_replace = New_end_point_nearby(Data[height,:,:], star_point, end_point, col_num, size_init) 
+#    if Data[height, end_x, end_y] >= 1:
+#        end_point_replace = New_end_point_mid(Data[height,:,:], star_point, end_point, col_num)       
+#    else:
+#        end_point_replace = end_point
     
+#%%        
+    graph = Graph()
     for i in range(row_num):
         for j in range(col_num):
             index = i * col_num + j
@@ -63,6 +64,8 @@ def Path_design_Update(Data, star_point, end_point, end_point_replace, height):
     cost_func_1 = lambda u, v, e, prev_e: e['cost']
     heuristic_func_1 = lambda u, v, e, prev_e: e['cost']
     PathInfo = find_path(graph, star_point, end_point_replace, cost_func=cost_func_1, heuristic_func=heuristic_func_1)
+    
+#%%
     Stop = False
 #    Fail_pos = 0
     Height_pos = 0

@@ -28,14 +28,16 @@ def spiral(X, Y):
 def New_end_point_nearby(data, star_point, end_point, col_num, size):
     start_x, start_y = index_2_xy(star_point, col_num)
     end_x, end_y = index_2_xy(end_point, col_num)
-    Move = spiral(size, size)
     Stop = False
-    i = 0
-    while i in range(int(Move.shape[0])) and not Stop:
-        New_endx = end_x + Move[i, 0]
-        New_endy = end_y + Move[i, 1]
-        if data[New_endx, New_endy] < 1:
-            Stop = True
-            New_end_point = New_endx * col_num + New_endy
-        i = i + 1
+    while not Stop:    
+        Move = spiral(size, size)
+        i = 0
+        while i in range(int(Move.shape[0])) and not Stop:
+            New_endx = end_x + Move[i, 0]
+            New_endy = end_y + Move[i, 1]
+            if data[New_endx, New_endy] < 1:
+                Stop = True
+                New_end_point = New_endx * col_num + New_endy
+            i = i + 1
+        size = size + 1
     return New_end_point
