@@ -26,22 +26,25 @@ from Path_design import *
 from Path_design_Update import *
 from obtainScore import *
 from Data_convert import *
-#trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
-#trainTrueFile = "C:/Users/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
-#testPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
-#cityLocFile = "C:/Users/ywanggp/Downloads/CityData.csv"
 
-trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
-trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
-testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
-cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
-testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
-submitPath = "C:\Users\lzhaoai\Desktop\predict_weather\submitResult.csv"
+trainPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTraining_201712.csv"
+trainTrueFile = "C:/Users/ywanggp/Downloads/In_situMeasurementforTraining_201712.csv"
+testPredFile = "C:/Users/ywanggp/Downloads/ForecastDataforTesting_201712.csv"
+cityLocFile = "C:/Users/ywanggp/Downloads/CityData.csv"
+testTrueFile = "C:/Users/ywanggp/Downloads/predict_weather/predict_model_3.csv"
+submitPath = "C:/Users/ywanggp/Downloads/predict_weather/submitResult.csv"
+
+# trainPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTraining_201712.csv"
+# trainTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\In_situMeasurementforTraining_201712.csv"
+# testPredFile = "C:\Users\lzhaoai\Desktop\predict_weather\ForecastDataforTesting_201712.csv"
+# cityLocFile = "C:\Users\lzhaoai\Desktop\predict_weather\CityData.csv"
+# testTrueFile = "C:\Users\lzhaoai\Desktop\predict_weather\predict_model_2.csv"
+# submitPath = "C:\Users\lzhaoai\Desktop\predict_weather\submitResult.csv"
 
 cityLoc = pd.read_csv(cityLocFile)
 xCity = cityLoc['xid']
 yCity = cityLoc['yid']
-file = testTrueFile
+file = trainTrueFile
 
 xsize = 548
 ysize = 421
@@ -75,7 +78,7 @@ for dayNum in [3]: #range(1, maxDay + 1):
         # if end_point is not the true end
         # if the end
     Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
-    print obtainScore(Pathinfo, windGraph)
+    print(obtainScore(Pathinfo, windGraph))
 #        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
 #                                   np.asarray([xCity[cityNum], yCity[cityNum]]), 
 #                                   xsize, ysize, xCity, yCity)
