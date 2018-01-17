@@ -7,7 +7,7 @@ Created on Tue Jan 16 20:49:31 2018
 from index_2_xy import *
 from xy_2_index import *
 
-def New_end_point(data, star_point, end_point, col_num):
+def New_end_point_mid(data, star_point, end_point, col_num):
     start_x, start_y = index_2_xy(star_point, col_num)
     end_x, end_y = index_2_xy(end_point, col_num)
     Stop = False

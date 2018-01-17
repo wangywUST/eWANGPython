@@ -71,6 +71,9 @@ for dayNum in [3]: #range(1, maxDay + 1):
         thre_wind = 15
         Data = Data_convert(windGraph, thre_wind)
         Pathinfo = Path_design_Update(Data, star_point, end_point, end_point, 0)
+        # some remedies
+        # if end_point is not the true end
+        # if the end
     Pathinfo = np.asarray([[node/ysize, node%ysize] for node in Pathinfo])
     print obtainScore(Pathinfo, windGraph)
 #        (pathList, Score) = givePath(windGraph, np.asarray([xCity[0], yCity[0]]), 
